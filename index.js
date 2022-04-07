@@ -415,7 +415,7 @@ app.get("/deletetext/:id", async (req, res) => {
 app.get("/deletetextconfirm/:id", async (req, res) => {
   const { id } = req.params;
   const text = await Text.findByIdAndDelete(id);
-  res.redirect("/alldialogues");
+  res.redirect("/");
 });
 
 app.get("/alldialogues", requiredLogin, async (req, res) => {
@@ -433,7 +433,7 @@ app.put("/dialogue/:id", async (req, res) => {
   const text = await Text.findByIdAndUpdate(id, req.body, {
     runValidators: true,
   });
-  res.redirect("/alldialogues");
+  res.redirect("/");
 });
 
 app.get("/art", (req, res) => {
