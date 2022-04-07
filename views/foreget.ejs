@@ -1,15 +1,26 @@
-<% layout('layout/boilerplate') %> 
-<br>
-<div class="d-flex justify-content-center">
-<main class="card col-8"; style="text-align:center">
-  <br>
-<h3>Have you forgotten your passWord</h3>
+<% layout('layout/boilerplate') %>
 
-<form action="/forgetpass/<%=tempid %> " method="POST">
-<label for="username">Please enter your Email? <label/> <br/>
-<input type="email" name="username" placeholder="Email"id="username">
-
-<button type="submit">Send</button>
-</form>
-</main>
-</div>
+  <div class="d-flex justify-content-center">
+    <main class="card col-8 main-content-xpage" style="text-align:center">
+      <div>
+        <h3>Have you forgotten your password</h3>
+      </div>
+      <form action="/forgetpass/<%=tempid %> " method="POST">
+        <div>
+          <label for="username">Please enter your Email </label>
+           or <a href="/login">Login</a>
+        </div>
+        <div class="form-row align-items-center">
+          <div class="col-sm-4"></div>
+          <div class="col-sm-4">
+            <input type="email" name="username" id="username" class="form-control" id="exampleInputEmail1"
+              aria-describedby="emailHelp" placeholder="Enter email" />
+          </div>
+          <div class="col-sm-1">
+            <button type="submit" class="btn btn-primary">Send</button>
+          </div>
+          <div class="col-sm-3"></div>
+        </div>
+      </form>
+    </main>
+  </div>

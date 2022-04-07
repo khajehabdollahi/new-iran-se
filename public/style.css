@@ -61,3 +61,18 @@
 }
 
 
+.main-content-x {
+  width: 80vw !important;
+  text-align:center
+}
+
+.main-content-xpage {
+  padding: 3rem;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.main-content-xmain {
+  padding: 3rem;
+}
+

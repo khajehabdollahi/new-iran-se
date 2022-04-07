@@ -1,39 +1,45 @@
 <% layout('layout/boilerplate') %>
 
-<div class="container d-flex justify-content-center">
-  <div class="row">
-    <div class="col-8 card">
-      <form  action="/register" method="POST" class="validated-form novalidate">
+  <div class="d-flex justify-content-center main-content-xmain">
+    <main class="card p-3" style="text-align:center">
+      <form action="/register" method="POST" class="validated-form novalidate">
         <div class="mb-3">
-          <br>
-          <label class="form-label" for="username">Email</label><br>
-          <input class="form-control" type="email" name="username" placeholder=""id="email" placeholder="email"required>
+          <label class="form-label" for="username">Email</label>
+          <input class="form-control" type="email" name="username" placeholder="" id="email" placeholder="email"
+            required>
         </div>
+
         <div class="mb-3">
           <label class="form-label" for="name">Write your name</label><br>
           <input class="form-control" type="text" name="name" id="name" placeholder="Please write ur name" required>
         </div>
 
-        
-
         <div class="mb-3">
           <label class="form-label" for="password">Password</label><br>
-          <h9>Password should be at least 6 characters and contain letters, Capital letters, symboles and numbers</h9>
+          <h9>Password should be at least 6 characters and contain letters, Capital letters, symboles and numbers
+          </h9>
           <input class="form-control" type="password" name="password" id="password" required>
         </div>
 
-        <label for="proficiency"></label> 
-<select name="proficiency" id="proficiency" >
-  <option value=" ">Proficiency</option>
-  <option value="tolk">Tolk</option>
-  <option value="artist">Artist</option>
-  <option value="ُphd">Phd</option>
-  <option value="teacher">Teacher</option>
-</select> <br/><br>
+        <div class="mb-3">
+          <label for="proficiency"></label>
 
-        <button type="submit" class="btn-success">Register</button><br><br>
+          <select name="proficiency" id="proficiency">
+            <option value=" ">Proficiency</option>
+            <option value="tolk">Tolk</option>
+            <option value="artist">Artist</option>
+            <option value="ُphd">Phd</option>
+            <option value="teacher">Teacher</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <button type="submit" class="btn btn-success">Register</button>
+        </div>
+        <div>
+          or <a href="/login">Login</a>
+        </div>
+
       </form>
-
-    </div>
+    </main>
   </div>
-</div>

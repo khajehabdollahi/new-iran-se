@@ -180,7 +180,8 @@ app.get("/textnotinlogd/:id", async (req, res) => {
 
 const isValidData = (str) => {
   var re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
-  return re.test(str);
+  var re2 = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+  return re2.test(str);
 };
 
 //REGISTER USER
@@ -200,28 +201,28 @@ app.post("/register", async (req, res) => {
     res.render("invalidpass");
   } else {
     password = inputPassword;
+    const newUser = new User({
+      username,
+      name,
+      proficiency,
+      activated: false,
+    });
+  
+    let user = await User.findOne({ username: username });
+    const err = "User with the Email already exist!";
+    if (user) {
+      res.render("registererror", { err });
+    } else {
+      await User.register(newUser, password);
+    }
+  
+    // req.session.user_id = user._id;
+    // let { id } = await User.findOne({ username: username });
+  
+    res.render("registerSuccess", { newUser });
+    // res.render('login', {user})
   }
-
-  const newUser = new User({
-    username,
-    name,
-    proficiency,
-    activated: false,
-  });
-
-  let user = await User.findOne({ username: username });
-  const err = "User with the Email already exist!";
-  if (user) {
-    res.render("registererror", { err });
-  } else {
-    await User.register(newUser, password);
-  }
-
-  // req.session.user_id = user._id;
-  // let { id } = await User.findOne({ username: username });
-
-  res.render("registerSuccess", { newUser });
-  // res.render('login', {user})
+  
 });
 
 app.get("/activate/:id", async (req, res) => {
