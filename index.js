@@ -1,7 +1,6 @@
-// c
-
 const express = require("express");
 const app = express();
+const bodyParser = require("body-parser")
 const session = require("express-session");
 const path = require("path");
 const mongoose = require("mongoose");
@@ -18,6 +17,10 @@ const flash = require("connect-flash");
 
 const User = require("./models/user");
 const Text = require("./models/text");
+
+var fs = require("fs");
+var upload_file = require("./services/uploadfile");
+var upload_image = require("./services/uploadimage");
 
 const MongoStore = require("connect-mongo")(session);
 
@@ -54,6 +57,8 @@ app.use(
     }),
   })
 );
+
+
 
 // const secret = process.env.SECRET;
 // const store = MongoDBStore.create({
@@ -99,9 +104,13 @@ app.engine("ejs", ejsMate);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.use(express.urlencoded({ extended: true }));
+//app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use("/public", express.static("public"));
+app.use(express.static(__dirname + "/"));
+app.use(bodyParser.urlencoded({ extended: false }));
+
+
 
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
@@ -207,7 +216,7 @@ app.post("/register", async (req, res) => {
       proficiency,
       activated: false,
     });
-  
+
     let user = await User.findOne({ username: username });
     const err = "User with the Email already exist!";
     if (user) {
@@ -215,14 +224,14 @@ app.post("/register", async (req, res) => {
     } else {
       await User.register(newUser, password);
     }
-  
+
     // req.session.user_id = user._id;
     // let { id } = await User.findOne({ username: username });
-  
+
     res.render("registerSuccess", { newUser });
     // res.render('login', {user})
   }
-  
+
 });
 
 app.get("/activate/:id", async (req, res) => {
@@ -317,9 +326,9 @@ app.post("/forgetpass/:tempid", async (req, res) => {
           username,
           "Hve you forgatten your pass",
           " please on the bellow link to reset your password\n \n (http://localhost:3000/resetpass/" +
-            tempid +
-            "/" +
-            username
+          tempid +
+          "/" +
+          username
         );
         res.redirect("/");
       }
@@ -485,6 +494,37 @@ app.get("/logout", (req, res) => {
   req.logout();
   res.redirect("/");
 });
+
+// File POST handler.
+app.post("/file_upload", function (req, res) {
+  upload_file(req, function (err, data) {
+
+    if (err) {
+      return res.status(404).end(JSON.stringify(err));
+    }
+
+    res.send(data);
+  });
+});
+
+// Image POST handler.
+app.post("/image_upload", function (req, res) {
+  upload_image(req, function (err, data) {
+
+    if (err) {
+      return res.status(404).end(JSON.stringify(err));
+    }
+
+    res.send(data);
+  });
+});
+
+
+// Create folder for uploading files.
+var filesDir = path.join(path.dirname(require.main.filename), "uploads");
+if (!fs.existsSync(filesDir)) {
+  fs.mkdirSync(filesDir);
+}
 
 app.use((req, res) => {
   res.status(404).send(`<h1>The page is not defined</h1>`);
